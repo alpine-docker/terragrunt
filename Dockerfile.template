@@ -2,8 +2,9 @@ FROM hashicorp/terraform:VERSION
 
 ARG TERRAGRUNT
 
+RUN apk add --update --no-cached bash
 ADD https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT}/terragrunt_linux_amd64 /usr/local/bin/terragrunt
 RUN chmod +x /usr/local/bin/terragrunt
 WORKDIR /apps
 
-ENTRYPOINT ["/usr/local/bin/terragrunt"]
+ENTRYPOINT ["bash"]
