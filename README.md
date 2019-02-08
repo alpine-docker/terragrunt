@@ -4,9 +4,9 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 ### Tools included in this container
 
-terraform - https://terraform.io
-terragrunt - https://github.com/gruntwork-io/terragrunt
-terraform-landscape - https://github.com/coinbase/terraform-landscape
+* `terraform` - https://terraform.io
+* `terragrunt` - https://github.com/gruntwork-io/terragrunt
+* `terraform-landscape` - https://github.com/coinbase/terraform-landscape
 
 ### Repo:
 
