@@ -15,10 +15,10 @@ Usage() {
 image="alpine/terragrunt"
 repo="hashicorp/terraform"
 
-#latest=`curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/${repo}/tags |jq -rS ".[].name"|awk -F "_" '{if (NF == 3 && /^v/) {gsub(/^v/,"");gsub(/_/,".");print}}' |head -1`
 latest=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
 
 terragrunt=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
+landscape=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/coinbase/terraform-landscape/releases/latest |jq -r .tag_name |sed 's/v//')
 
 sum=0
 echo "Lastest release is: ${latest}"
@@ -34,7 +34,7 @@ done
 
 if [[ ( $sum -ne 1 ) || ( $1 == "rebuild" ) ]];then
   sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
-  docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${latest} .
+  docker build --build-arg TERRAGRUNT=${terragrunt} --build-arg LANDSCAPE=${landscape} --no-cache -t ${image}:${latest} .
   docker tag ${image}:${latest} ${image}:latest
 
   if [[ "$TRAVIS_BRANCH" == "master" ]]; then
