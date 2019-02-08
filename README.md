@@ -1,6 +1,8 @@
-# enhancement tool to manage terraform deployment
+# enhanced tool to manage terraform deployment with terragrunt
 
 Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terragrunt) when new terraform version is related.
+
+(Optional) get nicer output when dry run.
 
 ### Tools included in this container
 
