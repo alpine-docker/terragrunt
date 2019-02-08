@@ -24,9 +24,6 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
 
 # Usage:
 
-
-docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps -e TERRAGRUNT_TFPATH="/usr/local/bin/tfbeautify" alpine/terragrunt:0.11.11 bash
-
     # (1) must mount the local folder to /apps in container.
     # (2) must mount the aws credentials and ssh config folder in container.
     $ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps alpine/terragrunt:0.11.11 bash
@@ -34,8 +31,9 @@ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`
     $ terragrunt plan-all
     $ terragrunt apply-all
 
-    # get nicer output with terraform-landscape
-    # docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps -e TERRAGRUNT_TFPATH="/usr/local/bin/tfbeautify" alpine/terragrunt:0.11.11 bash
+# Get nicer output with terraform-landscape
+
+    $ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps -e TERRAGRUNT_TFPATH="/usr/local/bin/tfbeautify" alpine/terragrunt:0.11.11 bash
 
 # The Processes to build this image
 
