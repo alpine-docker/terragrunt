@@ -2,13 +2,10 @@
 
 Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terragrunt) when new terraform version is related.
 
-(Optional) get nicer output when dry run.
-
 ### Tools included in this container
 
 * `terraform` - https://terraform.io
 * `terragrunt` - https://github.com/gruntwork-io/terragrunt
-* `terraform-landscape` - https://github.com/coinbase/terraform-landscape
 
 ### Repo:
 
@@ -30,10 +27,6 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
     # cd to terragrunt configuration directory, if required.
     $ terragrunt plan-all
     $ terragrunt apply-all
-
-# Get nicer output with terraform-landscape
-
-    $ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps -e TERRAGRUNT_TFPATH="/usr/local/bin/tfbeautify" alpine/terragrunt:0.11.11 bash
 
 # The Processes to build this image
 
