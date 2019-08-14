@@ -33,5 +33,5 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
 * Enable Travis CI cronjob on this repo to run build daily on master branch
 * Check if there are new tags/releases announced via Github REST API
 * Match the exist docker image tags via Hub.docker.io REST API
-* If not matched, build the image with latest version as tag and push to hub.docker.com
-* Always install latest version of terragrunt and terraform-landscape
+* If not matched, build the image with latest `terraform version` as tag and push to hub.docker.com
+* Always install latest version of terragrunt
