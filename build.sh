@@ -15,31 +15,37 @@ Usage() {
 image="alpine/terragrunt"
 repo="hashicorp/terraform"
 
-latest=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
+if [[ ${CI} == 'true' ]]; then
+  CURL="curl -sL -H \"Authorization: token ${API_TOKEN}\""
+else
+  CURL="curl -sL"
+fi
 
-terragrunt=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
+latest=$(${CURL} https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
+
+eks="${latest}-eks"
+
+terragrunt=$(${CURL} https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
 
 sum=0
-echo "Lastest release is: ${latest}"
+echo "Lastest terraform release is: ${latest}"
 
 tags=`curl -s https://hub.docker.com/v2/repositories/${image}/tags/ |jq -r .results[].name`
 
 for tag in ${tags}
 do
-  if [ ${tag} == ${latest} ];then
+  if [ ${tag} == ${eks} ];then
     sum=$((sum+1))
   fi
 done
 
 if [[ ( $sum -ne 1 ) || ( $1 == "rebuild" ) ]];then
   sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
-  docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${latest} .
-  docker tag ${image}:${latest} ${image}:latest
+  docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${eks} .
 
-  if [[ "$TRAVIS_BRANCH" == "master" ]]; then
+  if [[ "$TRAVIS_BRANCH" == "eks" ]]; then
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    docker push ${image}:${latest}
-    docker push ${image}:latest
+    docker push ${image}:${eks}
   fi
 
 fi
