@@ -23,6 +23,11 @@ RUN curl -LO https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/d
     mv aws-iam-authenticator_0.4.0_linux_amd64 /usr/bin/aws-iam-authenticator && \
     chmod +x /usr/bin/aws-iam-authenticator
 
+# Install eksctl (latest version)
+RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
+    mv /tmp/eksctl /usr/bin && \
+    chmod +x /usr/bin/eksctl
+
 WORKDIR /apps
 
 ENTRYPOINT []
