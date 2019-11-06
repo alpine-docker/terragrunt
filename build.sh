@@ -15,9 +15,15 @@ Usage() {
 image="alpine/terragrunt"
 repo="hashicorp/terraform"
 
-latest=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
+if [[ ${CI} == 'true' ]]; then
+  CURL="curl -sL -H \"Authorization: token ${API_TOKEN}\""
+else
+  CURL="curl -sL"
+fi
 
-terragrunt=$(curl -sL -H "Authorization: token ${API_TOKEN}" https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
+latest=$(${CURL} https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
+
+terragrunt=$(${CURL} https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
 
 sum=0
 echo "Lastest release is: ${latest}"
