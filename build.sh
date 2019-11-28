@@ -8,10 +8,6 @@
 
 set -ex
 
-Usage() {
-  echo "$0 [rebuild]"
-}
-
 image="alpine/terragrunt"
 repo="hashicorp/terraform"
 
@@ -22,7 +18,6 @@ else
 fi
 
 latest=$(${CURL} https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
-
 eks="${latest}-eks"
 
 terragrunt=$(${CURL} https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
@@ -39,7 +34,7 @@ do
   fi
 done
 
-if [[ ( $sum -ne 1 ) || ( $1 == "rebuild" ) ]];then
+if [[ ( $sum -ne 1 ) || ( ${REBUILD} == "true" ) ]];then
   sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
   docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${eks} .
 

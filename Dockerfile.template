@@ -1,11 +1,12 @@
+FROM wata727/tflint:latest as tflint
+
 FROM hashicorp/terraform:VERSION
 
 ARG TERRAGRUNT
 
-RUN apk add --update --no-cache bash git openssh
+RUN apk add --update --no-cache bash git openssh ca-certificates
 
 ADD https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT}/terragrunt_linux_amd64 /usr/local/bin/terragrunt
-
 RUN chmod +x /usr/local/bin/terragrunt
 
 # Add kubectl, aws_iam_auth for eks deployment
@@ -27,6 +28,9 @@ RUN curl -LO https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/d
 RUN curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/latest_release/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && \
     mv /tmp/eksctl /usr/bin && \
     chmod +x /usr/bin/eksctl
+
+COPY --from=tflint /usr/local/bin/tflint /usr/local/bin/tflint
+RUN chmod +x /usr/local/bin/tflint
 
 WORKDIR /apps
 
