@@ -4,8 +4,9 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 ### Tools included in this container
 
-* `terraform` - https://terraform.io
-* `terragrunt` - https://github.com/gruntwork-io/terragrunt
+* [terraform](https://terraform.io) - terraform version is this docker image's tag
+* [terragrunt](https://github.com/gruntwork-io/terragrunt) - latest terragrunt version when run the build
+* [tflint](https://github.com/terraform-linters/tflint) - latest tflint version when run the build, start from 0.12.16
 
 ### Repo:
 
@@ -23,8 +24,19 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
 
     # (1) must mount the local folder to /apps in container.
     # (2) must mount the aws credentials and ssh config folder in container.
-    $ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps alpine/terragrunt:0.11.11 bash
+    $ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps alpine/terragrunt:0.12.16 bash
+    #
+    # common terraform steps
+    $ terraform init
+    $ terraform fmt
+    $ terraform validate
+    $ tflint
+    $ terraform plan
+    $ terraform apply
+    #
+    # common terragrunt steps
     # cd to terragrunt configuration directory, if required.
+    $ terragrunt hclfmt
     $ terragrunt plan-all
     $ terragrunt apply-all
 
