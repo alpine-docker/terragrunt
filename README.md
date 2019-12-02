@@ -6,7 +6,6 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 * [terraform](https://terraform.io) - terraform version is this docker image's tag
 * [terragrunt](https://github.com/gruntwork-io/terragrunt) - latest terragrunt version when run the build
-* [tflint](https://github.com/terraform-linters/tflint) - latest tflint version when run the build, start from 0.12.16
 
 ### Repo:
 
