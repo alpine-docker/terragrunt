@@ -29,7 +29,6 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
     $ terraform init
     $ terraform fmt
     $ terraform validate
-    $ tflint
     $ terraform plan
     $ terraform apply
     #
