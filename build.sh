@@ -34,8 +34,7 @@ do
 done
 
 if [[ ( $sum -ne 1 ) || ( ${REBUILD} == "true" ) ]];then
-  sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
-  docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${latest} .
+  docker build --build-arg TERRAGRUNT_VERSION=${terragrunt} --build-arg TERRAFORM_VERSION=${latest} --no-cache -t ${image}:${latest} .
   docker tag ${image}:${latest} ${image}:latest
 
   if [[ "$TRAVIS_BRANCH" == "master" ]]; then
