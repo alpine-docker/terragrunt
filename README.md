@@ -2,6 +2,8 @@
 
 Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terragrunt) when new terraform version is related.
 
+[![DockerHub Badge](http://dockeri.co/image/alpine/terragrunt)](https://hub.docker.com/r/alpine/terragrunt/)
+
 ### Tools included in this container
 
 * [terraform](https://terraform.io) - terraform version is this docker image's tag
