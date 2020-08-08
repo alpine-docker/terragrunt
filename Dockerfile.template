@@ -1,12 +1,11 @@
-FROM hashicorp/terraform:VERSION
+FROM hashicorp/terraform:TERRAFORM_VERSION
 
-ARG TERRAGRUNT
+ARG TERRAGRUNT_VERSION
 
 RUN apk add --update --no-cache bash git openssh
 
-ADD https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT}/terragrunt_linux_amd64 /usr/local/bin/terragrunt
-
-RUN chmod +x /usr/local/bin/terragrunt
+RUN wget https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT_VERSION}/terragrunt_linux_amd64 -O /usr/local/bin/terragrunt && \
+    chmod +x /usr/local/bin/terragrunt
 
 WORKDIR /apps
 
