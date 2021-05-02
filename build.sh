@@ -52,10 +52,10 @@ do
 done
 
 
-tags=`curl -s https://hub.docker.com/v2/repositories/${image}/tags/ |jq -r .results[].name`
+tags=`curl -s "https://hub.docker.com/v2/repositories/${image}/tags/?page_size=100" |jq -r ".results[].name"`
 
 # Compare tags, and remove duplicate for major version
-missing_tags=$(comm -23 <(IFS=$'\n'; echo "${all_needed_tags[*]}" | sort | uniq) <(echo "${tags}" | sort | uniq) | sort -r | sort -u -t. -k1,2)
+missing_tags=$(comm -23 <(IFS=$'\n'; echo "${all_needed_tags[*]}" | sort -r | sort -u -t. -k1,2) <(echo "${tags}" | sort | uniq))
 
 for tag in ${missing_tags}
 do
