@@ -8,7 +8,7 @@
 
 set -ex
 
-image="alpine/terragrunt"
+image="gregorycuellar/terragrunt"
 repo="hashicorp/terraform"
 
 # Terragrunt supported-terraform versions
