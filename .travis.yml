@@ -1,6 +1,6 @@
 language: bash
 sudo: required
-
+dist: focal
 services:
   - docker
 
