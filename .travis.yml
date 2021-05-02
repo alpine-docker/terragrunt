@@ -5,5 +5,4 @@ services:
   - docker
 
 script:
-  - bash --version
   - bash ./build.sh
