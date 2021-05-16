@@ -10,7 +10,7 @@ RUN chmod +x /usr/local/bin/terragrunt
 
 # Add kubectl, aws_iam_auth for eks deployment
 ARG KUBECTL=1.14.7
-ARG AWS_IAM_AUTH=0.4.0
+ARG AWS_IAM_AUTH=0.5.2
 
 # Install kubectl (same version of aws esk)
 RUN apk add --update --no-cache curl && \
@@ -19,8 +19,8 @@ RUN apk add --update --no-cache curl && \
     chmod +x /usr/bin/kubectl
 
 # Install aws-iam-authenticator (latest version)
-RUN curl -LO https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTH}/aws-iam-authenticator_0.4.0_linux_amd64 && \
-    mv aws-iam-authenticator_0.4.0_linux_amd64 /usr/bin/aws-iam-authenticator && \
+RUN curl -LO https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${AWS_IAM_AUTH}/aws-iam-authenticator_${AWS_IAM_AUTH}_linux_amd64 && \
+    mv aws-iam-authenticator_${AWS_IAM_AUTH}_linux_amd64 /usr/bin/aws-iam-authenticator && \
     chmod +x /usr/bin/aws-iam-authenticator
 
 # Install eksctl (latest version)
