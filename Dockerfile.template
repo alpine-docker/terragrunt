@@ -10,7 +10,7 @@ RUN chmod +x /usr/local/bin/terragrunt
 
 # Add kubectl, aws_iam_auth for eks deployment
 ARG KUBECTL=1.14.7
-ARG AWS_IAM_AUTH=0.5.2
+ARG AWS_IAM_AUTH=0.5.3
 
 # Install kubectl (same version of aws esk)
 RUN apk add --update --no-cache curl && \
