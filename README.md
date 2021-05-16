@@ -15,7 +15,7 @@ https://github.com/alpine-docker/terragrunt
 
 ### Daily build logs:
 
-https://travis-ci.org/alpine-docker/terragrunt
+https://travis-ci.com/alpine-docker/terragrunt
 
 ### Docker iamge tags:
 
