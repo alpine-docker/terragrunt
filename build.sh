@@ -8,7 +8,8 @@
 
 set -ex
 
-image="alpine/terragrunt"
+#image="alpine/terragrunt"
+image="alpine/test-only"
 repo="hashicorp/terraform"
 
 if [[ ${CI} == 'true' ]]; then
