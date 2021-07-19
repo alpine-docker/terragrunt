@@ -1,5 +1,3 @@
-# After Travis CI adjusts their plan, we don't have enough free credit to run the build. So daily build has been adjusted to weekly. If you don't get latest version, please wait for one week.
-
 # enhanced tool to manage terraform deployment with terragrunt
 
 Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terragrunt) when new terraform version is related.
@@ -17,7 +15,7 @@ https://github.com/alpine-docker/terragrunt
 
 ### Daily build logs:
 
-https://travis-ci.com/alpine-docker/terragrunt
+https://app.circleci.com/pipelines/github/alpine-docker/terragrunt
 
 ### Docker iamge tags:
 
