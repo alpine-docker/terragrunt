@@ -24,3 +24,21 @@ workflows:
               only:
                 - master
                 - main
+  nightly:
+    triggers:
+       - schedule:
+           cron: "0 2 * * *"
+           filters:
+             branches:
+               only:
+                 - master
+                 - main
+    jobs:
+      - build:
+          name: build
+          filters:
+            branches:
+              only:
+                - master
+                - main
+
