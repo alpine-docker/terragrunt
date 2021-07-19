@@ -49,10 +49,10 @@ if [[ ( $sum -ne 1 ) || ( ${REBUILD} == "true" ) ]];then
   docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${latest} .
   docker tag ${image}:${latest} ${image}:latest
 
-  if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == false ]]; then
+  #if [[ "$CIRCLE_BRANCH" == "master" ]]; then
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker push ${image}:${latest}
     docker push ${image}:latest
-  fi
+  #fi
 
 fi
