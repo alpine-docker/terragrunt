@@ -17,7 +17,7 @@ https://github.com/alpine-docker/terragrunt
 
 https://app.circleci.com/pipelines/github/alpine-docker/terragrunt
 
-### Docker iamge tags:
+### Docker image tags:
 
 https://hub.docker.com/r/alpine/terragrunt/tags/
 
