@@ -13,6 +13,9 @@ jobs:
       - checkout
       - run: |
           bash ./build.sh
+          pushd eks
+          bash ./build.sh
+          popd
 
 workflows:
   build:
