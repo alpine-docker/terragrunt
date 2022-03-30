@@ -38,9 +38,12 @@ done
 # https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
 KUBECTL=`curl -s https://raw.githubusercontent.com/awsdocs/amazon-eks-user-guide/master/doc_source/kubernetes-versions.md |egrep -A 10 "The following Kubernetes versions"|grep ^+ |awk '{gsub("\\\\", ""); print $NF}' |sort -Vr|head -1`
 
+# get latest eksctl
+EKSCTL=$(curl -s https://api.github.com/repos/weaveworks/eksctl/releases | jq -r '.[].tag_name' |grep -v "\-rc" | sed 's/v//' | sort -rV | head -n 1)
+
 if [[ ( $sum -ne 1 ) || ( ${REBUILD} == "true" ) ]];then
   sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
-  docker build --build-arg TERRAGRUNT=${terragrunt} --build-arg KUBECTL=${KUBECTL} --no-cache -t ${image}:${eks} .
+  docker build --build-arg TERRAGRUNT=${terragrunt} --build-arg KUBECTL=${KUBECTL} --build-arg EKSCTL=${EKSCTL} --no-cache -t ${image}:${eks} .
 
   # if [[ "$TRAVIS_BRANCH" == "eks" ]]; then
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
