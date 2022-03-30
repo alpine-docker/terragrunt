@@ -36,7 +36,7 @@ done
 
 # get available Amazon EKS Kubernetes versions, only pick up the top version
 # https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html
-KUBECTL=`curl -s https://raw.githubusercontent.com/awsdocs/amazon-eks-user-guide/master/doc_source/kubernetes-versions.md |egrep -A 10 "The following Kubernetes versions"|grep ^+ |awk '{gsub("\\\\", ""); print $NF}' |sort -Vr|head -1`
+KUBECTL=$(curl -s https://raw.githubusercontent.com/awsdocs/amazon-eks-user-guide/master/doc_source/kubernetes-versions.md |egrep -A 10 "The following Kubernetes versions"|grep ^+ |awk '{gsub("\\\\", ""); print $NF}' |sort -Vr|head -1)
 
 # get latest eksctl
 EKSCTL=$(curl -s https://api.github.com/repos/weaveworks/eksctl/releases | jq -r '.[].tag_name' |grep -v "\-rc" | sed 's/v//' | sort -rV | head -n 1)
