@@ -42,9 +42,9 @@ if [[ ( $sum -ne 1 ) || ( ${REBUILD} == "true" ) ]];then
   sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
   docker build --build-arg TERRAGRUNT=${terragrunt} --build-arg KUBECTL=${KUBECTL} --no-cache -t ${image}:${eks} .
 
-  if [[ "$TRAVIS_BRANCH" == "eks" ]]; then
+  # if [[ "$TRAVIS_BRANCH" == "eks" ]]; then
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker push ${image}:${eks}
-  fi
+  # fi
 
 fi
