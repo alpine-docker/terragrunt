@@ -45,26 +45,15 @@ function build_docker_image() {
   # Build the Docker image for multiple platforms
   sed "s/VERSION/${latest_terraform}/" Dockerfile.template > Dockerfile
 
-  # docker buildx build \
-  #   --platform "linux/386,linux/amd64,linux/arm/v6,linux/arm64" \
-  #   --build-arg TERRAGRUNT="${terragrunt}" \
-  #   --no-cache \
-  #   --tag "${image_name}:${tag}" \
-  #   --tag "${image_name}:latest" \
-  #   .
- 
-   docker buildx build \
-    --platform "linux/386,linux/amd64,linux/arm64" \
-    --build-arg TERRAGRUNT="${terragrunt}" \
-    --no-cache \
-    --tag "${image_name}:${tag}" \
-    --tag "${image_name}:latest" \
-    .
-
-  if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-    # Push the Docker image for all platforms
-    docker buildx push "${image_name}:${tag}"
-    docker buildx push "${image_name}:latest"
+  if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
+    docker buildx build \
+     --platform "linux/386,linux/amd64,linux/arm64" \
+     --build-arg TERRAGRUNT="${terragrunt}" \
+     --no-cache \
+     --push \
+     --tag "${image_name}:${tag}" \
+     --tag "${image_name}:latest" \
+     .
   fi
   
   # Remove the buildx builder instance
