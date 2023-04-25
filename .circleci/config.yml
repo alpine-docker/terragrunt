@@ -28,7 +28,7 @@ jobs:
           # support GNU date
           apk add --update --no-cache coreutils
           echo $REBUILD
-          bash ./build.sh
+          bash -x ./build.sh
 
 workflows:
   build:
