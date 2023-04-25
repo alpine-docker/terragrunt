@@ -61,9 +61,11 @@ function build_docker_image() {
     --tag "${image_name}:latest" \
     .
 
-  # Push the Docker image for all platforms
-  echo docker buildx push "${image_name}:${tag}"
-  echo docker buildx push "${image_name}:latest"
+  if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+    # Push the Docker image for all platforms
+    docker buildx push "${image_name}:${tag}"
+    docker buildx push "${image_name}:latest"
+  fi
   
   # Remove the buildx builder instance
   docker buildx rm mybuilder
@@ -88,12 +90,10 @@ image_published_date=$(get_image_published_date "${image}")
 
 # If Terragrunt has a newer published date, then we have to force a build
 if [ "$(date -d "${terragrunt_published_date}" +%s)" -gt "$(date -d "${image_published_date}" +%s)" ]; then
-  REBUILD="true"
+  BUILD="true"
 fi
 
-REBUILD="true"
-
-if [[ ( "${sum}" -ne 1 ) || ( "${REBUILD}" == "true" ) ]]; then
+if [[ ( "${sum}" -ne 1 ) || ( "${REBUILD}" == "true" ) || ( "${BUILD}" == "true" ) ]]; then
   build_docker_image "${latest_terraform}" "${latest_terragrunt}" "${image}"
 fi
 
