@@ -1,58 +1,99 @@
 #!/usr/bin/env bash
 
 # Prerequisite
-# Make sure you set secret enviroment variables in Travis CI
+# Make sure you set secret environment variables in CI
 # DOCKER_USERNAME
 # DOCKER_PASSWORD
 # API_TOKEN
 
-set -ex
+# set -ex
 
 image="alpine/terragrunt"
-repo="hashicorp/terraform"
+terraform_repo="hashicorp/terraform"
+terragrunt_repo="gruntwork-io/terragrunt"
 
-if [[ ${CI} == 'true' ]]; then
+if [[ "${CI}" == "true" ]]; then
   CURL="curl -sL -H \"Authorization: token ${API_TOKEN}\""
 else
   CURL="curl -sL"
 fi
 
-latest=$(${CURL} https://api.github.com/repos/${repo}/releases/latest |jq -r .tag_name|sed 's/v//')
+function get_latest_release() {
+  ${CURL} -s "https://api.github.com/repos/$1/releases/latest" | jq -r '.tag_name | ltrimstr("v")'
+}
 
-terragrunt=$(${CURL} https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest |jq -r .tag_name)
+function get_published_date() {
+  ${CURL} -s "https://api.github.com/repos/$1/releases/latest" | jq -r '.published_at'
+}
+
+function get_image_published_date() {
+  ${CURL} -s "https://hub.docker.com/v2/repositories/$1/tags/" | jq -r '.results[] | select(.name == "latest") | .last_updated'
+}
+
+function get_image_tags() {
+  ${CURL} -s "https://hub.docker.com/v2/repositories/$1/tags/" | jq -r '.results[].name'
+}
+
+function build_docker_image() {
+  local tag="${1}"
+  local terragrunt="${2}"
+  local image_name="${3}"
+  
+  # Create a new buildx builder instance
+  docker buildx create --name mybuilder --use
+  
+  # Build the Docker image for multiple platforms
+  sed "s/VERSION/${latest_terraform}/" Dockerfile.template > Dockerfile
+
+  # docker buildx build \
+  #   --platform "linux/386,linux/amd64,linux/arm/v6,linux/arm64" \
+  #   --build-arg TERRAGRUNT="${terragrunt}" \
+  #   --no-cache \
+  #   --tag "${image_name}:${tag}" \
+  #   --tag "${image_name}:latest" \
+  #   .
+ 
+   docker buildx build \
+    --platform "linux/386,linux/amd64,linux/arm64" \
+    --build-arg TERRAGRUNT="${terragrunt}" \
+    --no-cache \
+    --tag "${image_name}:${tag}" \
+    --tag "${image_name}:latest" \
+    .
+
+  if [[ "$CIRCLE_BRANCH" == "master" ]]; then
+    # Push the Docker image for all platforms
+    docker buildx push "${image_name}:${tag}"
+    docker buildx push "${image_name}:latest"
+  fi
+  
+  # Remove the buildx builder instance
+  docker buildx rm mybuilder
+}
+
+latest_terraform=$(get_latest_release "${terraform_repo}")
+latest_terragrunt=$(get_latest_release "${terragrunt_repo}")
+echo "Latest terraform release is: ${latest_terraform}"
+echo "Latest terragrunt release is: ${latest_terragrunt}"
+
+tags=$(get_image_tags "${image}")
 
 sum=0
-echo "Lastest release is: ${latest}"
-
-tags=`curl -s https://hub.docker.com/v2/repositories/${image}/tags/ |jq -r .results[].name`
-
-for tag in ${tags}
-do
-  if [ ${tag} == ${latest} ];then
-    sum=$((sum+1))
+for tag in ${tags}; do
+  if [ "${tag}" == "${latest_terraform}" ]; then
+    sum=$((sum + 1))
   fi
 done
 
-# Example value: 2020-11-06T18:05:06Z
-terragrunt_published_date=$(${CURL} https://api.github.com/repos/gruntwork-io/terragrunt/releases/latest | jq -r '.published_at')
-
-# Example value: 2020-10-22T16:01:28.23617Z
-image_published_date=$(${CURL} https://hub.docker.com/v2/repositories/${image}/tags/ | jq -r '.results[] | select(.name=="latest") | .tag_last_pushed')
+terragrunt_published_date=$(get_published_date "${terragrunt_repo}")
+image_published_date=$(get_image_published_date "${image}")
 
 # If Terragrunt has a newer published date, then we have to force a build
-if [ $(date -d ${terragrunt_published_date} +%s) -gt $(date -d ${image_published_date} +%s) ]; then
-  REBUILD="true"
+if [ "$(date -d "${terragrunt_published_date}" +%s)" -gt "$(date -d "${image_published_date}" +%s)" ]; then
+  BUILD="true"
 fi
 
-if [[ ( $sum -ne 1 ) || ( ${REBUILD} == "true" ) ]];then
-  sed "s/VERSION/${latest}/" Dockerfile.template > Dockerfile
-  docker build --build-arg TERRAGRUNT=${terragrunt} --no-cache -t ${image}:${latest} .
-  docker tag ${image}:${latest} ${image}:latest
-
-  #if [[ "$CIRCLE_BRANCH" == "master" ]]; then
-    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    docker push ${image}:${latest}
-    docker push ${image}:latest
-  #fi
-
+if [[ ( "${sum}" -ne 1 ) || ( "${REBUILD}" == "true" ) || ( "${BUILD}" == "true" ) ]]; then
+  build_docker_image "${latest_terraform}" "${latest_terragrunt}" "${image}"
 fi
+

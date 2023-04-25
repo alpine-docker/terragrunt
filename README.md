@@ -17,6 +17,12 @@ https://github.com/alpine-docker/terragrunt
 
 https://app.circleci.com/pipelines/github/alpine-docker/terragrunt
 
+### Multiple platforms supported
+
+* linux/arm64
+* linux/amd64
+* linux/386
+
 ### Docker image tags:
 
 https://hub.docker.com/r/alpine/terragrunt/tags/
@@ -42,7 +48,7 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
 
 # The Processes to build this image
 
-* Enable Travis CI cronjob on this repo to run build daily on master branch
+* Enable CI cronjob on this repo to run build daily on master branch
 * Check if there are new tags/releases announced via Github REST API
 * Match the exist docker image tags via Hub.docker.io REST API
 * If not matched, build the image with latest `terraform version` as tag and push to hub.docker.com
