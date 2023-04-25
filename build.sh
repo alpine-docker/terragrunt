@@ -18,6 +18,15 @@ else
   CURL="curl -sL"
 fi
 
+function install_jq() {
+  # jq 1.6
+  DEBIAN_FRONTEND=noninteractive
+  #sudo apt-get update && sudo apt-get -q -y install jq
+  curl -sL https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -o jq
+  sudo mv jq /usr/bin/jq
+  sudo chmod +x /usr/bin/jq
+}
+
 function get_latest_release() {
   ${CURL} -s "https://api.github.com/repos/$1/releases/latest" | jq -r '.tag_name | ltrimstr("v")'
 }
@@ -70,6 +79,8 @@ function build_docker_image() {
   # Remove the buildx builder instance
   docker buildx rm mybuilder
 }
+
+install_jq
 
 latest_terraform=$(get_latest_release "${terraform_repo}")
 latest_terragrunt=$(get_latest_release "${terragrunt_repo}")
