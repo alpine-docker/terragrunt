@@ -46,6 +46,7 @@ function build_docker_image() {
   sed "s/VERSION/${latest_terraform}/" Dockerfile.template > Dockerfile
 
   if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
+    docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker buildx build \
      --platform "linux/386,linux/amd64,linux/arm64" \
      --build-arg TERRAGRUNT="${terragrunt}" \
