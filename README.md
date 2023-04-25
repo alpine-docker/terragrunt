@@ -17,15 +17,15 @@ https://github.com/alpine-docker/terragrunt
 
 https://app.circleci.com/pipelines/github/alpine-docker/terragrunt
 
+### Docker image tags:
+
+https://hub.docker.com/r/alpine/terragrunt/tags/
+
 ### Multiple platforms supported
 
 * linux/arm64
 * linux/amd64
 * linux/386
-
-### Docker image tags:
-
-https://hub.docker.com/r/alpine/terragrunt/tags/
 
 # Usage:
 
