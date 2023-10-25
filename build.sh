@@ -35,7 +35,7 @@ function get_image_tags() {
 }
 
 function build_docker_image() {
-  local tag="${1}"
+  local terraform="${1}"
   local terragrunt="${2}"
   local image_name="${3}"
   
@@ -43,16 +43,15 @@ function build_docker_image() {
   docker buildx create --name mybuilder --use
   
   # Build the Docker image for multiple platforms
-  sed "s/VERSION/${latest_terraform}/" Dockerfile.template > Dockerfile
-
   if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker buildx build \
      --platform "linux/386,linux/amd64,linux/arm64" \
+     --build-arg TERRAFORM="${terraform}" \
      --build-arg TERRAGRUNT="${terragrunt}" \
      --no-cache \
      --push \
-     --tag "${image_name}:${tag}" \
+     --tag "${image_name}:${terraform}" \
      --tag "${image_name}:latest" \
      .
   fi

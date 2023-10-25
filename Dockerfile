@@ -1,4 +1,6 @@
-FROM hashicorp/terraform:VERSION
+ARG TERRAFORM
+
+FROM hashicorp/terraform:${TERRAFORM}
 
 ARG TERRAGRUNT
 
