@@ -45,8 +45,6 @@ function build_docker_image() {
   docker buildx create --name mybuilder --use
   
   # Build the Docker image for multiple platforms
-  sed "s/VERSION/${latest_terraform}/" Dockerfile.template > Dockerfile
-
   if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker buildx build \
