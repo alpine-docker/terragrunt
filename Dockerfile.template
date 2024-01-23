@@ -27,7 +27,7 @@ RUN case `uname -m` in \
         *) echo "Unsupported architecture, exiting..."; exit 1; ;; \
     esac \
     && BOILERPLATE_URL="https://github.com/gruntwork-io/boilerplate/releases/download/v${BOILERPLATE}/boilerplate_linux_${ARCH}" \
-    && wget -q "${TERRAGRUNT_URL}" -O /usr/local/bin/boilerplate \
+    && wget -q "${BOILERPLATE_URL}" -O /usr/local/bin/boilerplate \
     && chmod +x /usr/local/bin/boilerplate
 
 WORKDIR /apps
