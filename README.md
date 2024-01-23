@@ -55,7 +55,7 @@ This is mostly used during Continuous Integration and Continuous Delivery (CI/CD
 
 # The Processes to build this image
 
-* Enable CI cronjob on this repo to run build daily on master branch
+* Enable CI cronjob on this repo to run build weekly on master branch
 * Check if there are new versions announced via Terraform Github REST API
 * Match the exist docker image tags via Hub.docker.io REST API
 * If not matched, build the image with latest `terraform version` as tag and push to hub.docker.com
