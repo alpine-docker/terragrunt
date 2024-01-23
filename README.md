@@ -10,6 +10,7 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 * [terraform](https://terraform.io) - terraform version is this docker image's tag
 * [terragrunt](https://github.com/gruntwork-io/terragrunt) - latest terragrunt version when run the build
+* [boilerplate](https://github.com/gruntwork-io/boilerplate) - latest boilerplate version when run the build
 
 ### Repo:
 

@@ -1,6 +1,7 @@
 FROM hashicorp/terraform:VERSION
 
 ARG TERRAGRUNT
+ARG BOILERPLATE
 
 RUN apk add --update --no-cache bash git openssh
 
@@ -16,6 +17,19 @@ RUN case `uname -m` in \
     && TERRAGRUNT_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT}/terragrunt_linux_${ARCH}" \
     && wget -q "${TERRAGRUNT_URL}" -O /usr/local/bin/terragrunt \
     && chmod +x /usr/local/bin/terragrunt
+
+RUN case `uname -m` in \
+        x86_64) ARCH=amd64; ;; \
+        armv7l) ARCH=arm; ;; \
+        aarch64) ARCH=arm64; ;; \
+        ppc64le) ARCH=ppc64le; ;; \
+        s390x) ARCH=s390x; ;; \
+        *) echo "Unsupported architecture, exiting..."; exit 1; ;; \
+    esac \
+    && BOILERPLATE_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v${BOILERPLATE}/terragrunt_linux_${ARCH}" \
+    && wget -q "${TERRAGRUNT_URL}" -O /usr/local/bin/boilerplate \
+    && chmod +x /usr/local/bin/boilerplate
+
 
 WORKDIR /apps
 

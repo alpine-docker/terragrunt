@@ -11,6 +11,7 @@
 image="alpine/terragrunt"
 terraform_repo="hashicorp/terraform"
 terragrunt_repo="gruntwork-io/terragrunt"
+boilerplate_repo="gruntwork-io/boilerplate"
 
 if [[ "${CI}" == "true" ]]; then
   CURL="curl -sL -H \"Authorization: token ${API_TOKEN}\""
@@ -37,7 +38,8 @@ function get_image_tags() {
 function build_docker_image() {
   local tag="${1}"
   local terragrunt="${2}"
-  local image_name="${3}"
+  local boilerplate="${3}"
+  local image_name="${4}"
   
   # Create a new buildx builder instance
   docker buildx create --name mybuilder --use
@@ -50,6 +52,7 @@ function build_docker_image() {
     docker buildx build \
      --platform "linux/386,linux/amd64,linux/arm64" \
      --build-arg TERRAGRUNT="${terragrunt}" \
+     --build-arg BOILERPLATE="${boilerplate}" \
      --no-cache \
      --push \
      --tag "${image_name}:${tag}" \
@@ -63,8 +66,10 @@ function build_docker_image() {
 
 latest_terraform=$(get_latest_release "${terraform_repo}")
 latest_terragrunt=$(get_latest_release "${terragrunt_repo}")
+latest_boilerplate=$(get_latest_release "${boilerplate_repo}")
 echo "Latest terraform release is: ${latest_terraform}"
 echo "Latest terragrunt release is: ${latest_terragrunt}"
+echo "Latest boilerplate release is: ${latest_boilerplate}"
 
 tags=$(get_image_tags "${image}")
 
@@ -84,6 +89,6 @@ if [ "$(date -d "${terragrunt_published_date}" +%s)" -gt "$(date -d "${image_pub
 fi
 
 if [[ ( "${sum}" -ne 1 ) || ( "${REBUILD}" == "true" ) || ( "${BUILD}" == "true" ) ]]; then
-  build_docker_image "${latest_terraform}" "${latest_terragrunt}" "${image}"
+  build_docker_image "${latest_terraform}" "${latest_terragrunt}" "${latest_boilerplate}" "${image}"
 fi
 
