@@ -50,8 +50,8 @@ This is mostly used during Continuous Integration and Continuous Delivery (CI/CD
     # common terragrunt steps
     # cd to terragrunt configuration directory, if required.
     $ terragrunt hclfmt
-    $ terragrunt plan-all
-    $ terragrunt apply-all
+    $ terragrunt run-all plan
+    $ terragrunt run-all apply
 
 # The Processes to build this image
 
