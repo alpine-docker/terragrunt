@@ -26,10 +26,9 @@ RUN case `uname -m` in \
         s390x) ARCH=s390x; ;; \
         *) echo "Unsupported architecture, exiting..."; exit 1; ;; \
     esac \
-    && BOILERPLATE_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v${BOILERPLATE}/terragrunt_linux_${ARCH}" \
+    && BOILERPLATE_URL="https://github.com/gruntwork-io/boilerplate/releases/download/v${BOILERPLATE}/boilerplate_linux_${ARCH}" \
     && wget -q "${TERRAGRUNT_URL}" -O /usr/local/bin/boilerplate \
     && chmod +x /usr/local/bin/boilerplate
-
 
 WORKDIR /apps
 
