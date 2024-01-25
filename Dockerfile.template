@@ -1,9 +1,13 @@
+FROM quay.io/terraform-docs/terraform-docs:latest as docs
+
 FROM hashicorp/terraform:VERSION
 
 ARG TERRAGRUNT
 ARG BOILERPLATE
 
 RUN apk add --update --no-cache bash git openssh
+
+COPY --from=docs /usr/local/bin/terraform-docs /usr/local/bin/terraform-docs
 
 # Determine the target architecture using uname -m
 RUN case `uname -m` in \
