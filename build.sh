@@ -36,7 +36,7 @@ function get_image_tags() {
 }
 
 function build_docker_image() {
-  local tag="${1}"
+  local terraform="${1}"
   local terragrunt="${2}"
   local boilerplate="${3}"
   local image_name="${4}"
@@ -55,7 +55,9 @@ function build_docker_image() {
      --build-arg BOILERPLATE="${boilerplate}" \
      --no-cache \
      --push \
-     --tag "${image_name}:${tag}" \
+     --tag "${image_name}:tf${terraform}" \
+     --tag "${image_name}:${terragrunt}" \
+     --tag "${image_name}:${terragrunt}-tf${terraform}" \
      --tag "${image_name}:latest" \
      .
   fi
