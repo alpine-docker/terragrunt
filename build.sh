@@ -56,6 +56,8 @@ function build_docker_image() {
      --no-cache \
      --push \
      --tag "${image_name}:${tag}" \
+     --tag "${image_name}:${tag%.*}" \
+     --tag "${image_name}:${tag%%.*}" \
      --tag "${image_name}:latest" \
      .
   fi
