@@ -1,7 +1,6 @@
-FROM quay.io/terraform-docs/terraform-docs:latest as docs
-
 ARG TERRAFORM
 
+FROM quay.io/terraform-docs/terraform-docs:latest as docs
 FROM hashicorp/terraform:${TERRAFORM}
 
 ARG TERRAGRUNT
