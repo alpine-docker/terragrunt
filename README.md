@@ -10,7 +10,7 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 * Never use tag `latest` in prod environment.
 * tag is terraform's version, not opentofu version
-* TODO (not implemented yet) - will update with new tags to identify terraform and opentofu versions
+* TODO (not implemented yet) - will update with new tags with terraform and opentofu versions
 
 ### Tools included in this container
 
@@ -18,7 +18,7 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 * [terragrunt](https://github.com/gruntwork-io/terragrunt) - The latest terragrunt version when running the build.
 * [boilerplate](https://github.com/gruntwork-io/boilerplate) - The latest boilerplate version when running the build.
 * [terraform-docs](https://github.com/terraform-docs/terraform-docs) - The latest terraform-docs version when running the build.
-* TODO (not added yet) - [OpenTofu](https://opentofu.org/docs/intro/install/) - the latest opentofu version when running the build
+* [OpenTofu](https://opentofu.org/docs/intro/install/) - the latest opentofu version when running the build
   
 ### Repo:
 
@@ -54,9 +54,18 @@ This is mostly used during Continuous Integration and Continuous Delivery (CI/CD
     $ terraform validate
     $ terraform plan
     $ terraform apply
-    #
+    
+    # common opentofu steps
+    $ tofu init
+    $ tofu fmt
+    $ tofu validate
+    $ tofu plan
+    $ tofu apply
+    
     # common terragrunt steps
     # cd to terragrunt configuration directory, if required.
+    # Terraform and OpenTofu Version Compatibility Table
+    # https://terragrunt.gruntwork.io/docs/getting-started/supported-versions/
     $ terragrunt hclfmt
     $ terragrunt run-all plan
     $ terragrunt run-all apply
