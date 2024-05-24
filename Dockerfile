@@ -1,15 +1,19 @@
 ARG TERRAFORM
+ARG OPENTOFU
 
 FROM quay.io/terraform-docs/terraform-docs:latest as docs
+FROM ghcr.io/opentofu/opentofu:${OPENTOFU} as tofu
 FROM hashicorp/terraform:${TERRAFORM}
+
+/usr/local/bin/tofu
 
 ARG TERRAGRUNT
 ARG BOILERPLATE
-ARG OPENTOFU
 
 RUN apk add --update --no-cache bash git openssh
 
 COPY --from=docs /usr/local/bin/terraform-docs /usr/local/bin/terraform-docs
+COPY --from=tofu /usr/local/bin/tofu /usr/local/bin/tofu
 
 # Determine the target architecture using uname -m
 RUN case `uname -m` in \
@@ -34,15 +38,6 @@ RUN . /envfile  && echo $ARCH && \
     BOILERPLATE_URL="https://github.com/gruntwork-io/boilerplate/releases/download/v${BOILERPLATE}/boilerplate_linux_${ARCH}" && \
     wget -q "${BOILERPLATE_URL}" -O /usr/local/bin/boilerplate && \
     chmod +x /usr/local/bin/boilerplate
-
-# install OpenTofu
-# https://opentofu.org/docs/intro/install/alpine/
-RUN . /envfile  && echo $ARCH && \
-    apk add --update --no-cache curl && \
-    curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && \
-    chmod +x install-opentofu.sh && \
-    ./install-opentofu.sh --install-method apk && \
-    rm install-opentofu.sh
 
 WORKDIR /apps
 
