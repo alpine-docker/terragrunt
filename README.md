@@ -6,6 +6,10 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 [![DockerHub Badge](http://dockeri.co/image/alpine/terragrunt)](https://hub.docker.com/r/alpine/terragrunt/)
 
+### Notes
+
+Never use tag `latest` in prod environment. 
+
 ### Tools included in this container
 
 * [terraform](https://terraform.io) - terraform version is this docker image's tag
