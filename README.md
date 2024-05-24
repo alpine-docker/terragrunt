@@ -16,7 +16,8 @@ Never use tag `latest` in prod environment.
 * [terragrunt](https://github.com/gruntwork-io/terragrunt) - The latest terragrunt version when running the build.
 * [boilerplate](https://github.com/gruntwork-io/boilerplate) - The latest boilerplate version when running the build.
 * [terraform-docs](https://github.com/terraform-docs/terraform-docs) - The latest terraform-docs version when running the build.
-
+* TODO (not added yet) - [OpenTofu](https://opentofu.org/docs/intro/install/) - the latest opentofu version when running the build
+  
 ### Repo:
 
 https://github.com/alpine-docker/terragrunt
