@@ -9,12 +9,11 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 ### Notes
 
 * Never use tag `latest` in prod environment.
-* For examples, below tags will be supported now:
-
-* alpine/terragrunt:latest
-* alpine/terragrunt:1.8.4 (terraform version)
-* alpine/terragrunt:tf1.8.4 (terraform version)
-* alpine/terragrunt:otf1.7.1 (opentofu version)
+* For examples, below tags are supported now:
+  - alpine/terragrunt:latest
+  - alpine/terragrunt:1.8.4 (terraform version)
+  - alpine/terragrunt:tf1.8.4 (terraform version)
+  - alpine/terragrunt:otf1.7.1 (opentofu version)
 
 ### Tools included in this container
 
