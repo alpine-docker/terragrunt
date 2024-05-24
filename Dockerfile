@@ -24,13 +24,13 @@ RUN case `uname -m` in \
     cat /envfile
 
 # install terragrunt
-RUN ./envfile  && echo $ARCH && \  
+RUN . /envfile  && echo $ARCH && \  
     TERRAGRUNT_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT}/terragrunt_linux_${ARCH}" && \
     wget -q "${TERRAGRUNT_URL}" -O /usr/local/bin/terragrunt && \
     chmod +x /usr/local/bin/terragrunt
 
 # install boilerplate
-RUN ./envfile  && echo $ARCH && \
+RUN . /envfile  && echo $ARCH && \
     BOILERPLATE_URL="https://github.com/gruntwork-io/boilerplate/releases/download/v${BOILERPLATE}/boilerplate_linux_${ARCH}" && \
     wget -q "${BOILERPLATE_URL}" -O /usr/local/bin/boilerplate && \
     chmod +x /usr/local/bin/boilerplate
