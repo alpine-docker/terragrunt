@@ -81,7 +81,7 @@ tags=$(get_image_tags "${image}")
 
 sum=0
 for tag in ${tags}; do
-  if [ "${tag}" == "${latest_terraform}" ]; then
+  if [ "${tag}" == "tf${latest_terraform}" ] || [ "${tag}" == "otf${latest_opentofu}" ]; then
     sum=$((sum + 1))
   fi
 done
