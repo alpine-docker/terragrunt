@@ -10,7 +10,7 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 
 * Never use tag `latest` in prod environment.
 * tag is terraform's version, not opentofu version
-* TPTO (not implemented yet) - will update with new tags to identify terraform and opentofu versions
+* TODO (not implemented yet) - will update with new tags to identify terraform and opentofu versions
 
 ### Tools included in this container
 
