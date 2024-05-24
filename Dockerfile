@@ -5,8 +5,6 @@ FROM quay.io/terraform-docs/terraform-docs:latest as docs
 FROM ghcr.io/opentofu/opentofu:${OPENTOFU} as tofu
 FROM hashicorp/terraform:${TERRAFORM}
 
-/usr/local/bin/tofu
-
 ARG TERRAGRUNT
 ARG BOILERPLATE
 
