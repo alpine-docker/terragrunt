@@ -38,7 +38,11 @@ RUN . /envfile  && echo $ARCH && \
 # install OpenTofu
 # https://opentofu.org/docs/intro/install/alpine/
 RUN . /envfile  && echo $ARCH && \
-    apk add --allow-untrusted tofu_*.apk
+    apk add --update --no-cache curl && \
+    curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && \
+    chmod +x install-opentofu.sh && \
+    ./install-opentofu.sh --install-method apk && \
+    rm install-opentofu.sh
 
 WORKDIR /apps
 
