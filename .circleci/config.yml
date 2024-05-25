@@ -36,7 +36,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          trivy image -s "HIGH,CRITICAL" alpine/terragrunt
+          trivy image -s "HIGH,CRITICAL" arichtman/terragrunt
 
 workflows:
   build:

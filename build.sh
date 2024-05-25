@@ -8,7 +8,7 @@
 
 # set -ex
 
-image="alpine/terragrunt"
+image="arichtman/terragrunt"
 terraform_repo="hashicorp/terraform"
 terragrunt_repo="gruntwork-io/terragrunt"
 boilerplate_repo="gruntwork-io/boilerplate"
@@ -50,7 +50,7 @@ function build_docker_image() {
   if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker buildx build \
-     --platform "linux/386,linux/amd64,linux/arm64" \
+     --platform "linux/amd64,linux/arm64" \
      --build-arg TERRAFORM="${terraform}" \
      --build-arg TERRAGRUNT="${terragrunt}" \
      --build-arg BOILERPLATE="${boilerplate}" \
@@ -58,7 +58,14 @@ function build_docker_image() {
      --no-cache \
      --push \
      --tag "${image_name}:${terraform}" \
+     --tag "${image_name}:${terraform%.*}" \
+     --tag "${image_name}:${terraform%%.*}" \
      --tag "${image_name}:tf${terraform}" \
+     --tag "${image_name}:tf${terraform%.*}" \
+     --tag "${image_name}:tf${terraform%%.*}" \
+     --tag "${image_name}:otf${opentofu}" \
+     --tag "${image_name}:otf${opentofu%.*}" \
+     --tag "${image_name}:otf${opentofu%%.*}" \
      --tag "${image_name}:latest" \
      .
   fi
