@@ -14,3 +14,5 @@ vendor
 terragrunt
 .DS_Store
 mocks/
+# added
+result
