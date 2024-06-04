@@ -63,9 +63,6 @@ function build_docker_image() {
      --tag "${image_name}:tf${terraform}" \
      --tag "${image_name}:tf${terraform%.*}" \
      --tag "${image_name}:tf${terraform%%.*}" \
-     --tag "${image_name}:otf${opentofu}" \
-     --tag "${image_name}:otf${opentofu%.*}" \
-     --tag "${image_name}:otf${opentofu%%.*}" \
      --tag "${image_name}:latest" \
      .
   fi

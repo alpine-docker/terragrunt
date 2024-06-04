@@ -1,8 +1,8 @@
 ARG TERRAFORM
-ARG OPENTOFU
+#ARG OPENTOFU
 
 FROM quay.io/terraform-docs/terraform-docs:latest as docs
-FROM ghcr.io/opentofu/opentofu:${OPENTOFU} as tofu
+#FROM ghcr.io/opentofu/opentofu:${OPENTOFU} as tofu
 FROM hashicorp/terraform:${TERRAFORM}
 
 ARG TERRAGRUNT
@@ -11,7 +11,7 @@ ARG BOILERPLATE
 RUN apk add --update --no-cache bash git openssh
 
 COPY --from=docs /usr/local/bin/terraform-docs /usr/local/bin/terraform-docs
-COPY --from=tofu /usr/local/bin/tofu /usr/local/bin/tofu
+#COPY --from=tofu /usr/local/bin/tofu /usr/local/bin/tofu
 
 # Determine the target architecture using uname -m
 RUN case `uname -m` in \

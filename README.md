@@ -9,11 +9,12 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 ### Notes
 
 * Never use tag `latest` in prod environment.
+* Multi-Arch supported (linux/amd64, linux/arm64, linux/386)
 * For examples, below tags are supported now:
   - alpine/terragrunt:latest
   - alpine/terragrunt:1.8.4 (terraform version)
   - alpine/terragrunt:tf1.8.4 (terraform version)
-  - alpine/terragrunt:otf1.7.1 (opentofu version)
+  - (TODO, not ready yet) alpine/terragrunt:otf1.7.1 (opentofu version)
 
 ### Tools included in this container
 
@@ -21,7 +22,7 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 * [terragrunt](https://github.com/gruntwork-io/terragrunt) - The latest terragrunt version when running the build.
 * [boilerplate](https://github.com/gruntwork-io/boilerplate) - The latest boilerplate version when running the build.
 * [terraform-docs](https://github.com/terraform-docs/terraform-docs) - The latest terraform-docs version when running the build.
-* [OpenTofu](https://opentofu.org/docs/intro/install/) - the latest opentofu version when running the build
+* (TODO, not ready yet) [OpenTofu](https://opentofu.org/docs/intro/install/) - the latest opentofu version when running the build
   
 ### Repo:
 

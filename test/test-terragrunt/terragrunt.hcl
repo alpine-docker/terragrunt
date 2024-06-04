@@ -1,0 +1,5 @@
+# terragrunt.hcl
+terraform {
+  source = "."
+}
+
