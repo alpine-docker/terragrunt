@@ -48,7 +48,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - main
 
       - scan:
@@ -60,7 +59,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - main
 
   nightly:
@@ -70,7 +68,6 @@ workflows:
            filters:
              branches:
                only:
-                 - master
                  - main
     jobs:
       - build:
@@ -80,7 +77,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - main
       - scan:
           requires:
@@ -91,5 +87,4 @@ workflows:
           filters:
             branches:
               only:
-                - master
                 - main
