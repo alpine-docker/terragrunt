@@ -9,7 +9,7 @@ Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terra
 ### Notes
 
 * Never use tag `latest` in prod environment.
-* Multi-Arch supported (linux/amd64, linux/arm64, linux/386)
+* Multi-Arch supported (linux/amd64, linux/arm64)
 * For examples, below tags are supported now:
   - alpine/terragrunt:latest
   - alpine/terragrunt:1.8.4 (terraform version)
@@ -30,7 +30,7 @@ https://github.com/alpine-docker/terragrunt
 
 ### Daily build logs:
 
-https://app.circleci.com/pipelines/github/alpine-docker/terragrunt
+https://github.com/alpine-docker/terragrunt/actions
 
 ### Docker image tags:
 
@@ -40,7 +40,6 @@ https://hub.docker.com/r/alpine/terragrunt/tags/
 
 * linux/arm64
 * linux/amd64
-* linux/386
 
 # Why we need it
 
