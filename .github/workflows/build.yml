@@ -33,18 +33,20 @@ jobs:
         run: |
           export CURL_OPTIONS="-sL -H \"Authorization: token ${{ secrets.API_KEY }}\""
 
-          #curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/stable/functions.sh" -o functions.sh
-          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/refs/heads/master/functions.sh" -o functions.sh 
+          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/stable/functions.sh" -o functions.sh
+          # curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/refs/heads/master/functions.sh" -o functions.sh 
           source functions.sh
 
           # get latest version
+          terraform_repo="hashicorp/terraform"
+          terragrunt_repo="gruntwork-io/terragrunt"
+          boilerplate_repo="gruntwork-io/boilerplate"
           latest_terraform=$(get_latest_release "${terraform_repo}")
           latest_terragrunt=$(get_latest_release "${terragrunt_repo}")
           latest_boilerplate=$(get_latest_release "${boilerplate_repo}")
           echo "Latest terraform release is: ${latest_terraform}"
           echo "Latest terragrunt release is: ${latest_terragrunt}"
           echo "Latest boilerplate release is: ${latest_boilerplate}"
-          echo "Latest opentofu release is: ${latest_opentofu}"
           echo "TERRAFORM=${latest_terraform}" >> $GITHUB_ENV
           echo "TERRAGRUNT=${latest_terragrunt}" >> $GITHUB_ENV
           echo "BOILERPLATE=${latest_boilerplate}" >> $GITHUB_ENV
