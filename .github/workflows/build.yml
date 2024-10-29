@@ -33,8 +33,8 @@ jobs:
         run: |
           export CURL_OPTIONS="-sL -H \"Authorization: token ${{ secrets.API_KEY }}\""
 
-          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/stable/functions.sh" -o functions.sh
-          #curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/refs/heads/master/functions.sh" -o functions.sh 
+          #curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/stable/functions.sh" -o functions.sh
+          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/alpine-docker/multi-arch-docker-images/refs/heads/master/functions.sh" -o functions.sh 
           source functions.sh
 
           # get latest version
