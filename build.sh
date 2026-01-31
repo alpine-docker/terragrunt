@@ -50,7 +50,7 @@ function build_docker_image() {
   if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker buildx build \
-     --platform "linux/386,linux/amd64,linux/arm64" \
+     --platform "linux/amd64,linux/arm64" \
      --build-arg TERRAFORM="${terraform}" \
      --build-arg TERRAGRUNT="${terragrunt}" \
      --build-arg BOILERPLATE="${boilerplate}" \
