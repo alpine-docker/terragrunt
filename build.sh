@@ -8,7 +8,7 @@
 
 # set -ex
 
-image="alpine/terragrunt"
+image="cbcvaughan/terragrunt"
 terraform_repo="hashicorp/terraform"
 terragrunt_repo="gruntwork-io/terragrunt"
 boilerplate_repo="gruntwork-io/boilerplate"
@@ -59,6 +59,7 @@ function build_docker_image() {
      --push \
      --tag "${image_name}:${terraform}" \
      --tag "${image_name}:tf${terraform}" \
+     --tag "${image_name}:otf${opentofu}" \
      --tag "${image_name}:latest" \
      .
   fi
@@ -93,6 +94,6 @@ if [ "$(date -d "${terragrunt_published_date}" +%s)" -gt "$(date -d "${image_pub
   BUILD="true"
 fi
 
-if [[ ( "${sum}" -ne 1 ) || ( "${REBUILD}" == "true" ) || ( "${BUILD}" == "true" ) ]]; then
+if [[ ( "${sum}" -ne 2 ) || ( "${REBUILD}" == "true" ) || ( "${BUILD}" == "true" ) ]]; then
   build_docker_image "${latest_terraform}" "${latest_terragrunt}" "${latest_boilerplate}" "${latest_opentofu}" "${image}"
 fi
