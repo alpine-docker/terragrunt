@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq curl
+
+      - name: Fetch latest versions
+        id: versions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          get_latest() {
+            curl -sL -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$1/releases/latest" | jq -r '.tag_name | ltrimstr("v")'
+          }
+
+          echo "Fetching latest versions..."
+          TERRAFORM=$(get_latest "hashicorp/terraform")
+          TERRAGRUNT=$(get_latest "gruntwork-io/terragrunt")
+          BOILERPLATE=$(get_latest "gruntwork-io/boilerplate")
+          OPENTOFU=$(get_latest "opentofu/opentofu")
+
+          echo "TERRAFORM=$TERRAFORM" >> $GITHUB_ENV
+          echo "TERRAGRUNT=$TERRAGRUNT" >> $GITHUB_ENV
+          echo "BOILERPLATE=$BOILERPLATE" >> $GITHUB_ENV
+          echo "OPENTOFU=$OPENTOFU" >> $GITHUB_ENV
+
+          echo "Versions found: Terraform=$TERRAFORM, Terragrunt=$TERRAGRUNT, Boilerplate=$BOILERPLATE, OpenTofu=$OPENTOFU"
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: cbcvaughan/terragrunt:latest
+          build-args: |
+            TERRAFORM=${{ env.TERRAFORM }}
+            TERRAGRUNT=${{ env.TERRAGRUNT }}
+            BOILERPLATE=${{ env.BOILERPLATE }}
+            OPENTOFU=${{ env.OPENTOFU }}
+
+      - name: Run Tests
+        run: bash test/test.sh
