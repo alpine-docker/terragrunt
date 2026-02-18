@@ -47,7 +47,7 @@ function build_docker_image() {
   docker buildx create --name mybuilder --use
   
   # Build the Docker image for multiple platforms
-  if [[ "$CIRCLE_BRANCH" == "master" ]]; then 
+  if [[ "$CIRCLE_BRANCH" == "main" ]]; then 
     docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     docker buildx build \
      --platform "linux/amd64,linux/arm64" \
