@@ -1,80 +1,56 @@
-# Enhanced tool to manage Terraform and OpenTofu deployment with Terragrunt
+# Terragrunt with Terraform & OpenTofu
 
-Auto-trigger docker build for [terragrunt](https://github.com/gruntwork-io/terragrunt) when new terraform or opentofu versions are released.
+Docker image for [Terragrunt](https://github.com/gruntwork-io/terragrunt) with support for both [Terraform](https://terraform.io) and [OpenTofu](https://opentofu.org/). Ideal for CI/CD pipelines.
 
 [![DockerHub Badge](http://dockeri.co/image/cbcvaughan/terragrunt)](https://hub.docker.com/r/cbcvaughan/terragrunt/)
 
-### Notes
+> [!WARNING]
+> **Terragrunt defaults to OpenTofu (`tofu`) in this container.**
+> To use Terraform, explicitly set `terraform_binary = "terraform"` in your `terragrunt.hcl`.
 
-* Never use tag `latest` in prod environment.
-* Multi-Arch supported (linux/amd64, linux/arm64)
-* For examples, below tags are supported now:
-  - cbcvaughan/terragrunt:latest (based on latest terraform)
-  - cbcvaughan/terragrunt:1.8.4 (terraform version)
-  - cbcvaughan/terragrunt:tf1.8.4 (terraform version)
-  - cbcvaughan/terragrunt:otf1.7.1 (opentofu version)
+## Features
 
-### Tools included in this container
+- **Multi-Arch:** linux/amd64, linux/arm64
+- **Tools:** Terragrunt, Terraform, OpenTofu, [boilerplate](https://github.com/gruntwork-io/boilerplate), [terraform-docs](https://github.com/terraform-docs/terraform-docs)
+- **Automatic Builds:** Triggered weekly or when new Terraform/OpenTofu versions are released.
 
-* [terraform](https://terraform.io) - specific terraform version based on tag
-* [opentofu](https://opentofu.org/) - specific opentofu version based on tag
-* [terragrunt](https://github.com/gruntwork-io/terragrunt) - The latest terragrunt version when running the build.
-* [boilerplate](https://github.com/gruntwork-io/boilerplate) - The latest boilerplate version when running the build.
-* [terraform-docs](https://github.com/terraform-docs/terraform-docs) - The latest terraform-docs version when running the build.
+## Supported Tags
 
-### Repo:
+| Tag | Description |
+| :--- | :--- |
+| `latest` | Latest Terragrunt + Latest Terraform |
+| `1.8.4` / `tf1.8.4` | Latest Terragrunt + Terraform v1.8.4 |
+| `otf1.7.1` | Latest Terragrunt + OpenTofu v1.7.1 |
 
-https://github.com/cbcvaughan/terragrunt
+*Note: Avoid using `latest` in production.*
 
-### Daily build logs:
+## Usage
 
-https://github.com/cbcvaughan/terragrunt/actions
+Mount your project directory to `/apps` and your credentials to the appropriate locations.
 
-### Docker image tags:
+```bash
+docker run -ti --rm \
+  -v $HOME/.aws:/root/.aws \
+  -v $HOME/.ssh:/root/.ssh \
+  -v $(pwd):/apps \
+  cbcvaughan/terragrunt:latest bash
+```
 
-https://hub.docker.com/r/cbcvaughan/terragrunt/tags/
+### Common Commands
 
-### Multiple platforms supported
+```bash
+# Terraform
+terraform init && terraform plan && terraform apply
 
-* linux/arm64
-* linux/amd64
+# OpenTofu
+tofu init && tofu plan && tofu apply
 
-# Why we need it
+# Terragrunt
+terragrunt run-all plan && terragrunt run-all apply
+```
 
-This is mostly used during Continuous Integration and Continuous Delivery (CI/CD), or as a component of an automated build and deployment process.
+## Resources
 
-# Usage:
-
-    # (1) must mount the local folder to /apps in container.
-    # (2) must mount the aws credentials and ssh config folder in container.
-    $ docker run -ti --rm -v $HOME/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/apps cbcvaughan/terragrunt:latest bash
-    #
-    # common terraform steps
-    $ terraform init
-    $ terraform fmt
-    $ terraform validate
-    $ terraform plan
-    $ terraform apply
-    
-    # common opentofu steps
-    $ tofu init
-    $ tofu fmt
-    $ tofu validate
-    $ tofu plan
-    $ tofu apply
-    
-    # common terragrunt steps
-    # cd to terragrunt configuration directory, if required.
-    # Terraform and OpenTofu Version Compatibility Table
-    # https://terragrunt.gruntwork.io/docs/getting-started/supported-versions/
-    $ terragrunt hclfmt
-    $ terragrunt run-all plan
-    $ terragrunt run-all apply
-
-# The Processes to build this image
-
-* Enable CI cronjob on this repo to run build weekly on master branch
-* Check if there are new versions announced via Terraform and OpenTofu Github REST APIs
-* Match the existing docker image tags via Hub.docker.io REST API
-* If not matched, build the image with latest `terraform version` or `opentofu version` as tag and push to hub.docker.com
-* Always install latest version of terragrunt
+- **Repo:** [github.com/cbcvaughan/terragrunt](https://github.com/cbcvaughan/terragrunt)
+- **Docker Hub:** [hub.docker.com/r/cbcvaughan/terragrunt](https://hub.docker.com/r/cbcvaughan/terragrunt/)
+- **Build Logs:** [GitHub Actions](https://github.com/cbcvaughan/terragrunt/actions)
