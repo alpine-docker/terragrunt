@@ -2,8 +2,6 @@
 
 Docker image for [Terragrunt](https://github.com/gruntwork-io/terragrunt) with support for both [Terraform](https://terraform.io) and [OpenTofu](https://opentofu.org/). Ideal for CI/CD pipelines.
 
-[![DockerHub Badge](http://dockeri.co/image/cbcvaughan/terragrunt)](https://hub.docker.com/r/cbcvaughan/terragrunt/)
-
 > [!WARNING]
 > **Terragrunt defaults to OpenTofu (`tofu`) in this container.**
 > To use Terraform, explicitly set `terraform_binary = "terraform"` in your `terragrunt.hcl`.
