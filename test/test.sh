@@ -1,16 +1,37 @@
 #!/usr/bin/env bash
 
-docker run --rm -v $(pwd)/test/test-terragrunt:/apps -w /apps cbcvaughan/terragrunt bash -c "terragrunt --version > result && terragrunt init && terragrunt apply -auto-approve && echo $? >> result"
-echo $?
-echo "==== test terragrunt result ===="
-cat test/test-terragrunt/result
+# Use first argument as the image name. If not provided, run tests locally.
+IMAGE_NAME=$1
 
-docker run --rm -v $(pwd)/test/test-terraform:/apps -w /apps cbcvaughan/terragrunt bash -c "terraform --version > result && terragrunt init && terragrunt apply -auto-approve && echo $? >> result"
-echo $?
-echo "==== test terraform result ===="
-cat test/test-terraform/result
+run_test() {
+  local test_dir=$1
+  local tool=$2
+  local cmd=$3
+  
+  echo "==== Testing $tool in $test_dir ===="
+  
+  if [ -n "$IMAGE_NAME" ]; then
+    docker run --rm -v "$(pwd)/test/$test_dir":/apps -w /apps "$IMAGE_NAME" bash -c "$cmd"
+  else
+    (
+      cd "test/$test_dir" || exit 1
+      bash -c "$cmd"
+    )
+  fi
+  
+  local exit_code=$?
+  echo "Exit code: $exit_code"
+  echo "==== Result for $tool ===="
+  cat "test/$test_dir/result"
+  return $exit_code
+}
 
-docker run --rm -v $(pwd)/test/test-opentofu:/apps -w /apps cbcvaughan/terragrunt bash -c "tofu --version > result && terragrunt init && terragrunt apply -auto-approve && echo $? >> result"
-echo $?
-echo "==== test opentofu result ===="
-cat test/test-opentofu/result
+# Define commands
+TERRAGRUNT_CMD="terragrunt --version > result && terragrunt init && terragrunt apply -auto-approve && echo \$? >> result"
+TERRAFORM_CMD="terraform --version > result && terragrunt init && terragrunt apply -auto-approve && echo \$? >> result"
+OPENTOFU_CMD="tofu --version > result && terragrunt init && terragrunt apply -auto-approve && echo \$? >> result"
+
+# Run tests
+run_test "test-terragrunt" "terragrunt" "$TERRAGRUNT_CMD" || exit 1
+run_test "test-terraform" "terraform" "$TERRAFORM_CMD" || exit 1
+run_test "test-opentofu" "opentofu" "$OPENTOFU_CMD" || exit 1
