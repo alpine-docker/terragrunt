@@ -12,16 +12,6 @@ Docker image for [Terragrunt](https://github.com/gruntwork-io/terragrunt) with s
 - **Tools:** Terragrunt, Terraform, OpenTofu, [boilerplate](https://github.com/gruntwork-io/boilerplate), [terraform-docs](https://github.com/terraform-docs/terraform-docs)
 - **Automatic Builds:** Triggered weekly or when new Terraform/OpenTofu versions are released.
 
-## Supported Tags
-
-| Tag | Description |
-| :--- | :--- |
-| `latest` | Latest Terragrunt + Latest Terraform |
-| `1.8.4` / `tf1.8.4` | Latest Terragrunt + Terraform v1.8.4 |
-| `otf1.7.1` | Latest Terragrunt + OpenTofu v1.7.1 |
-
-*Note: Avoid using `latest` in production.*
-
 ## Usage
 
 Mount your project directory to `/apps` and your credentials to the appropriate locations.
