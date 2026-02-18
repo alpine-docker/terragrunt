@@ -2,7 +2,7 @@ ARG TERRAFORM
 ARG OPENTOFU
 
 FROM quay.io/terraform-docs/terraform-docs:latest AS docs
-FROM ghcr.io/opentofu/opentofu:${OPENTOFU} AS tofu
+FROM ghcr.io/opentofu/opentofu:${OPENTOFU}-minimal AS tofu
 FROM hashicorp/terraform:${TERRAFORM}
 
 ARG TERRAGRUNT
