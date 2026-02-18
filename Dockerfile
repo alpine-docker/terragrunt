@@ -2,6 +2,7 @@ ARG TERRAFORM
 ARG OPENTOFU
 
 FROM quay.io/terraform-docs/terraform-docs:latest AS docs
+# As per https://github.com/opentofu/opentofu/issues/2968 the minimal image is required from v1.10.0
 FROM ghcr.io/opentofu/opentofu:${OPENTOFU}-minimal AS tofu
 FROM hashicorp/terraform:${TERRAFORM}
 
