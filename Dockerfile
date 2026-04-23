@@ -1,8 +1,8 @@
 ARG TERRAFORM
 #ARG OPENTOFU
 
-FROM quay.io/terraform-docs/terraform-docs:latest as docs
-#FROM ghcr.io/opentofu/opentofu:${OPENTOFU} as tofu
+FROM quay.io/terraform-docs/terraform-docs:latest AS docs
+#FROM ghcr.io/opentofu/opentofu:${OPENTOFU} AS tofu
 FROM hashicorp/terraform:${TERRAFORM}
 
 ARG TERRAGRUNT
@@ -26,7 +26,7 @@ RUN case `uname -m` in \
     cat /envfile
 
 # install terragrunt
-RUN . /envfile  && echo $ARCH && \  
+RUN . /envfile  && echo $ARCH && \
     TERRAGRUNT_URL="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT}/terragrunt_linux_${ARCH}" && \
     wget -q "${TERRAGRUNT_URL}" -O /usr/local/bin/terragrunt && \
     chmod +x /usr/local/bin/terragrunt
